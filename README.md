@@ -1,5 +1,9 @@
 # Shitlist
 
+![Hate Level](https://img.shields.io/badge/Hate%20Level-11%2F10-red)
+![Tech Ruined](https://img.shields.io/badge/Tech%20Ruined-All-orange)
+![Build: Failing (by design)](<https://img.shields.io/badge/Build-Failing%20(by%20design)-red>)
+
 A lovingly crafted rundown of tech that's made me want to throw my keyboard out
 the window, complete with why these tools and languages deserve a spot in my
 personal hall of shame. Buckle up.
@@ -103,7 +107,8 @@ personal hall of shame. Buckle up.
 - It'll nuke and rebuild your infra if you don't babysit it.
 - Drift detection's half-baked, so trust is optional.
 
-[^1]: State files track your infra; corrupt or lose them, and Terraform's
+[^1]:
+    State files track your infra; corrupt or lose them, and Terraform's
     clueless.
 
 ---
@@ -122,7 +127,8 @@ personal hall of shame. Buckle up.
   hacks[^2].
 - Debugging performance is like groping in the dark with a spoon.
 
-[^2]: Some NuGet packages are just jQuery wrappers because .NET's web tools were
+[^2]:
+    Some NuGet packages are just jQuery wrappers because .NET's web tools were
     a disaster for years.
 
 ---
@@ -151,7 +157,8 @@ personal hall of shame. Buckle up.
 - Juggling Python versions is agony—system manager or not, it's fragile.
 - GIL chokes multithreading into a sad, single-threaded whimper.
 
-[^3]: PyPI packages often skip dependency metadata, forcing `setup.py` to run
+[^3]:
+    PyPI packages often skip dependency metadata, forcing `setup.py` to run
     unknown code just to install.
 
 ---
