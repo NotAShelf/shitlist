@@ -224,5 +224,17 @@ personal hall of shame. Buckle up.
 
 ---
 
+## Ruby
+
+- Syntax so sugary it rots your brain; blocks and end everywhere like it's 1995.
+- Performance crawls like it's allergic to speed; enjoy your glacial app boots.
+- Gems are a dependency hellscape—half are abandoned, the other half are bloated.
+- "Everything's an object" sounds cool until you’re debugging nil explosions.
+- Rails cultists swear it’s magic, but it’s just duct tape on a leaky pipe.
+- Homebrew's sloth? Ruby's fault—thanks for the assist, Matz.
+- [Wat](https://www.destroyallsoftware.com/talks/wat)
+
+---
+
 There. Next time someone asks why I despise these, I'll just shove this in their
 face.
