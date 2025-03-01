@@ -146,7 +146,7 @@ personal hall of shame. Buckle up.
 - Dependency isolation's a fantasy; three packages in, and you're in conflict
   hell.
 - Releases outpace the ecosystem, so half your packages break constantly.
-- Distributing means janky compiles or lugging the whole runtime along.
+- Distributing means janky compiles or lugging the whole runtime along. Couldn't they have learned from Java/Perl that people need a single file to double click? Only other devs are willing to navigate Pyenv or virtualenv to run your project.
 - `setup.py` runs random code; PyPI's a minefield of mystery downloads[^3].
 - Slow as molasses—don't even try heavy lifting.
 - Pip, PipX, bootstrapping—every step's a catastrophe.
@@ -199,7 +199,9 @@ personal hall of shame. Buckle up.
 ## Lisp
 
 - Dialects out the wazoo—too many flavors to count.
+- It was awesome - in 1979.
 - Parentheses overload—code looks like a bracket storm.
+- Oh, single quote overload too. Who thought `''''')))))` belonged in code?
 - Common Lisp, Scheme, Racket, Clojure—pick your poison.
 - Code-as-data's neat until macro debugging breaks you.
 - Academic darling, real-world skeptic—fragile in practice.
@@ -233,6 +235,15 @@ personal hall of shame. Buckle up.
 - Rails cultists swear it’s magic, but it’s just duct tape on a leaky pipe.
 - Homebrew's sloth? Ruby's fault—thanks for the assist, Matz.
 - [Wat](https://www.destroyallsoftware.com/talks/wat)
+
+---
+
+## Flatpak 
+
+- Solves a genuine problem, but ends up bloating your disk.
+- Why do I have six different copies of the GNOME runtime installed? I use KDE...
+- If devs don't keep up with dependencies, then every time you update you get 50 warnings about outdated packaged using outdated dependencies. Maybe tell the dev that first?
+- At least it's not Snap.
 
 ---
 
