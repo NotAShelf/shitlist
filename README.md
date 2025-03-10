@@ -6,7 +6,7 @@
 
 A lovingly crafted rundown of tech that's made me want to throw my keyboard out
 the window, complete with why these tools and languages deserve a spot in my
-personal hall of shame. Buckle up.
+personal hall of shame. Buckle your fuckle, because shit will go down.
 
 ---
 
@@ -254,7 +254,33 @@ personal hall of shame. Buckle up.
 
 ---
 
-## Flatpak 
+## Javascript
+
+- A language so loose it's basically coding with wet spaghetti.
+- Callbacks, promises, async/await—pick your poison, they all suck to debug
+  anyway.
+- NPM pulls in half the internet for a "hello world"—enjoy your 10,000 dependencies.
+- Type safety? Optional, because who doesn't love runtime errors crashing prod at 3 a.m.?
+- Browser quirks mean your code works until some ancient version of Edge says "nah, I'd break"
+- Frameworks churn faster than a reality TV cast—learn React today! It'll be obsolete tomorrow.
+- This behaves like a drunk toddler, changing meaning depending on where you stand.
+- "Use strict" to fix the mess? Too little, too late, buddy.
+- Hoisting and scoping rules feel like they were designed s a personal "fuck you."
+
+## CSS
+
+- A styling system so brittle it's like building a house of cards in a windstorm.
+- Specificity wars—good luck figuring out why your `!important` still got ignored.
+- Flexbox and Grid are neat until you realize every browser interprets "center" differently.
+- Media queries turn into a spaghetti tangle just to make a button not look like garbage on mobile.
+- Naming classes is a Sisyphean nightmare—BEM, SMACSS, or just give up and cry.
+- Preprocessors like Sass promise help but drag you into nesting hell and bloated outputs.
+- "Cascading" sounds cool until your inherited styles ruin everything three divs down.
+- Tailwind's "fix" is just inline styling with extra steps and a cult following.
+- Responsive design? More like "redesign every breakpoint because nothing works."
+- ["Cascading Shitstorm"](https://canary.discord.com/channels/568306982717751326/568306982717751328/1346281745233875148)
+
+## Flatpak
 
 - Solves a genuine problem, but ends up bloating your disk.
 - Why do I have six different copies of the GNOME runtime installed? I use KDE...
