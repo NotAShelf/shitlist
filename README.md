@@ -28,6 +28,22 @@ personal hall of shame. Buckle up.
 
 ---
 
+## Kubernetes
+
+- Containers were cool until this overcomplicated beast rolled in to "manage" them.
+- YAML.
+- YAML, again—thousands of lines of indentation roulette just to spin up a pod.
+- Debugging? Hope you enjoy spelunking through logs, kubectl vomit, and cryptic error codes.
+- Resource limits sound nice until your cluster starves because you forgot to appease the scheduler gods.
+- Networking’s a labyrinth, good luck untangling overlays, CNI plugins, and service meshes without losing your mind.
+- Upgrades are a gamble; one wrong move and your cluster’s a smoking crater.
+- "Self-healing" my ass. More like "self-breaking" when a node flakes out and takes half your app with it.
+- Helm charts promise salvation but deliver dependency bloat and version drift chaos.
+- Eats RAM and CPU like a black hole. Hope your budget’s ready for the cloud bill.
+- Documentation brags about simplicity while burying you in a 10-layer abstraction nightmare.
+
+---
+
 ## GitLab
 
 - Global settings slam every branch at once with zero warning.
