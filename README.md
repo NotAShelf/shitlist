@@ -2,7 +2,7 @@
 
 ![Hate Level](https://img.shields.io/badge/Hate%20Level-11%2F10-red)
 ![Tech Ruined](https://img.shields.io/badge/Tech%20Ruined-All-orange)
-![Build: Failing (by design)](<https://img.shields.io/badge/Build-Failing%20(by%20design)-red>)
+![Build: Failing (by design)](<https://img.shields.io/badge/Build-Failing%20By%20Design-red>)
 
 A lovingly crafted rundown of tech that's made me want to throw my keyboard out
 the window, complete with why these tools and languages deserve a spot in my
@@ -30,17 +30,25 @@ personal hall of shame. Buckle your fuckle, because shit will go down.
 
 ## Kubernetes
 
-- Containers were cool until this overcomplicated beast rolled in to "manage" them.
+- Containers were cool until this overcomplicated beast rolled in to "manage"
+  them.
 - YAML.
 - YAML, again—thousands of lines of indentation roulette just to spin up a pod.
-- Debugging? Hope you enjoy spelunking through logs, kubectl vomit, and cryptic error codes.
-- Resource limits sound nice until your cluster starves because you forgot to appease the scheduler gods.
-- Networking’s a labyrinth, good luck untangling overlays, CNI plugins, and service meshes without losing your mind.
+- Debugging? Hope you enjoy spelunking through logs, kubectl vomit, and cryptic
+  error codes.
+- Resource limits sound nice until your cluster starves because you forgot to
+  appease the scheduler gods.
+- Networking’s a labyrinth, good luck untangling overlays, CNI plugins, and
+  service meshes without losing your mind.
 - Upgrades are a gamble; one wrong move and your cluster’s a smoking crater.
-- "Self-healing" my ass. More like "self-breaking" when a node flakes out and takes half your app with it.
-- Helm charts promise salvation but deliver dependency bloat and version drift chaos.
-- Eats RAM and CPU like a black hole. Hope your budget’s ready for the cloud bill.
-- Documentation brags about simplicity while burying you in a 10-layer abstraction nightmare.
+- "Self-healing" my ass. More like "self-breaking" when a node flakes out and
+  takes half your app with it.
+- Helm charts promise salvation but deliver dependency bloat and version drift
+  chaos.
+- Eats RAM and CPU like a black hole. Hope your budget’s ready for the cloud
+  bill.
+- Documentation brags about simplicity while burying you in a 10-layer
+  abstraction nightmare.
 
 ---
 
@@ -123,8 +131,7 @@ personal hall of shame. Buckle your fuckle, because shit will go down.
 - It'll nuke and rebuild your infra if you don't babysit it.
 - Drift detection's half-baked, so trust is optional.
 
-[^1]:
-    State files track your infra; corrupt or lose them, and Terraform's
+[^1]: State files track your infra; corrupt or lose them, and Terraform's
     clueless.
 
 ---
@@ -143,8 +150,7 @@ personal hall of shame. Buckle your fuckle, because shit will go down.
   hacks[^2].
 - Debugging performance is like groping in the dark with a spoon.
 
-[^2]:
-    Some NuGet packages are just jQuery wrappers because .NET's web tools were
+[^2]: Some NuGet packages are just jQuery wrappers because .NET's web tools were
     a disaster for years.
 
 ---
@@ -162,7 +168,10 @@ personal hall of shame. Buckle your fuckle, because shit will go down.
 - Dependency isolation's a fantasy; three packages in, and you're in conflict
   hell.
 - Releases outpace the ecosystem, so half your packages break constantly.
-- Distributing means janky compiles or lugging the whole runtime along. Couldn't they have learned from Java/Perl that people need a single file to double click? Only other devs are willing to navigate Pyenv or virtualenv to run your project.
+- Distributing means janky compiles or lugging the whole runtime along. Couldn't
+  they have learned from Java/Perl that people need a single file to double
+  click? Only other devs are willing to navigate Pyenv or virtualenv to run your
+  project.
 - `setup.py` runs random code; PyPI's a minefield of mystery downloads[^3].
 - Slow as molasses—don't even try heavy lifting.
 - Pip, PipX, bootstrapping—every step's a catastrophe.
@@ -173,8 +182,7 @@ personal hall of shame. Buckle your fuckle, because shit will go down.
 - Juggling Python versions is agony—system manager or not, it's fragile.
 - GIL chokes multithreading into a sad, single-threaded whimper.
 
-[^3]:
-    PyPI packages often skip dependency metadata, forcing `setup.py` to run
+[^3]: PyPI packages often skip dependency metadata, forcing `setup.py` to run
     unknown code just to install.
 
 ---
@@ -246,7 +254,8 @@ personal hall of shame. Buckle your fuckle, because shit will go down.
 
 - Syntax so sugary it rots your brain; blocks and end everywhere like it's 1995.
 - Performance crawls like it's allergic to speed; enjoy your glacial app boots.
-- Gems are a dependency hellscape—half are abandoned, the other half are bloated.
+- Gems are a dependency hellscape—half are abandoned, the other half are
+  bloated.
 - "Everything's an object" sounds cool until you’re debugging nil explosions.
 - Rails cultists swear it’s magic, but it’s just duct tape on a leaky pipe.
 - Homebrew's sloth? Ruby's fault—thanks for the assist, Matz.
@@ -259,33 +268,75 @@ personal hall of shame. Buckle your fuckle, because shit will go down.
 - A language so loose it's basically coding with wet spaghetti.
 - Callbacks, promises, async/await—pick your poison, they all suck to debug
   anyway.
-- NPM pulls in half the internet for a "hello world"—enjoy your 10,000 dependencies.
-- Type safety? Optional, because who doesn't love runtime errors crashing prod at 3 a.m.?
-- Browser quirks mean your code works until some ancient version of Edge says "nah, I'd break"
-- Frameworks churn faster than a reality TV cast—learn React today! It'll be obsolete tomorrow.
-- This behaves like a drunk toddler, changing meaning depending on where you stand.
+- NPM pulls in half the internet for a "hello world"—enjoy your 10,000
+  dependencies.
+- Type safety? Optional, because who doesn't love runtime errors crashing prod
+  at 3 a.m.?
+- Browser quirks mean your code works until some ancient version of Edge says
+  "nah, I'd break"
+- Frameworks churn faster than a reality TV cast—learn React today! It'll be
+  obsolete tomorrow.
+- This behaves like a drunk toddler, changing meaning depending on where you
+  stand.
 - "Use strict" to fix the mess? Too little, too late, buddy.
-- Hoisting and scoping rules feel like they were designed s a personal "fuck you."
+- Hoisting and scoping rules feel like they were designed s a personal "fuck
+  you."
 
 ## CSS
 
-- A styling system so brittle it's like building a house of cards in a windstorm.
-- Specificity wars—good luck figuring out why your `!important` still got ignored.
-- Flexbox and Grid are neat until you realize every browser interprets "center" differently.
-- Media queries turn into a spaghetti tangle just to make a button not look like garbage on mobile.
+- A styling system so brittle it's like building a house of cards in a
+  windstorm.
+- Specificity wars—good luck figuring out why your `!important` still got
+  ignored.
+- Flexbox and Grid are neat until you realize every browser interprets "center"
+  differently.
+- Media queries turn into a spaghetti tangle just to make a button not look like
+  garbage on mobile.
 - Naming classes is a Sisyphean nightmare—BEM, SMACSS, or just give up and cry.
-- Preprocessors like Sass promise help but drag you into nesting hell and bloated outputs.
-- "Cascading" sounds cool until your inherited styles ruin everything three divs down.
+- Preprocessors like Sass promise help but drag you into nesting hell and
+  bloated outputs.
+- "Cascading" sounds cool until your inherited styles ruin everything three divs
+  down.
 - Tailwind's "fix" is just inline styling with extra steps and a cult following.
-- Responsive design? More like "redesign every breakpoint because nothing works."
+- Responsive design? More like "redesign every breakpoint because nothing
+  works."
 - ["Cascading Shitstorm"](https://canary.discord.com/channels/568306982717751326/568306982717751328/1346281745233875148)
 
 ## Flatpak
 
 - Solves a genuine problem, but ends up bloating your disk.
-- Why do I have six different copies of the GNOME runtime installed? I use KDE...
-- If devs don't keep up with dependencies, then every time you update you get 50 warnings about outdated packaged using outdated dependencies. Maybe tell the dev that first?
+- Why do I have six different copies of the GNOME runtime installed? I use
+  KDE...
+- If devs don't keep up with dependencies, then every time you update you get 50
+  warnings about outdated packaged using outdated dependencies. Maybe tell the
+  dev that first?
 - At least it's not Snap.
+
+## React
+
+- Component reusability's a joke when prop drilling turns code into Swiss
+  cheese.
+- "Everything's a component" sounds cute until your codebase's a nested
+  nightmare.
+- State management? Redux, Context, Zustand, MobX, ... Pick your poison and hope
+  it kills you
+- Virtual DOM was revolutionary until it wasn't. Now it's just overhead other
+  frameworks laugh at.
+- Hooks promised cleaner code but delivered spaghetti `useEffect` dependencies
+  from hell.
+- Re-renders like it's getting paid per pixel refresh. Better pray your laptop
+  fan works.
+- Error boundaries catch shit about as well as a colander holds water.
+- Class components, functional components, HOCs. Three paradigms fighting in a
+  trench coat.
+- JSX mixes HTML and JS like a cocktail nobody ordered but everyone's forced to
+  drink.
+- Documentation reads like it was written by someone allergic to examples.
+- Lifecycle methods are a sick game of "guess which one fires when."
+- "Just learn React" they said, forgetting to mention the 50 other libraries
+  you'll need down the road _anyway_
+- Meta owns it, so enjoy that corporate dependency while it rewrites half the
+  API yearly.
 
 ---
 
