@@ -1,0 +1,211 @@
+---
+export interface Props {
+    title: string;
+    content: string;
+    category: string;
+    tags?: string[];
+    dateAdded: Date;
+    status: string;
+    slug: string;
+}
+
+const {
+    title,
+    content,
+    category,
+    tags = [],
+    dateAdded,
+    status,
+    slug,
+} = Astro.props;
+
+ const getCategoryColor = (cat: string) => {
+     const colors = {
+         shit: "#dc2626",
+         stars: "#059669",
+     };
+     return colors[cat as keyof typeof colors] || "#6b7280";
+ };
+
+// Function to convert basic markdown to HTML
+ const simpleMarkdownToHtml = (text: string) => {
+     return text
+         .replace(/^---[\s\S]*?---\n/, "")
+         .replace(/```[\s\S]*?```/g, "")
+         .replace(/`[^`]+`/g, "")
+         .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+         .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+         .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+         .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+         .replace(/\*(.*)\*/gim, '<em>$1</em>')
+         .replace(/!\[([^\]]*)\]\(([^)]+)\)/gim, '<img alt="$1" src="$2">')
+         .replace(/\[([^\]]*)\]\(([^)]+)\)/gim, '<a href="$2">$1</a>')
+         .replace(/\n/gim, '<br>');
+ };
+
+ const htmlContent = simpleMarkdownToHtml(content);
+ const truncatedHtml = htmlContent.length > 300 ? htmlContent.slice(0, 300) + '...' : htmlContent;
+---
+
+<article class="entry-card">
+    <header class="entry-header">
+        <h2>
+            <a href={`/${category}/${slug}`}>{title}</a>
+        </h2>
+        <div class="entry-meta">
+            <span
+                class="category"
+                style={`--category-color: ${getCategoryColor(category)}`}
+            >
+                {category}
+            </span>
+            <time datetime={dateAdded.toISOString()}>
+                {dateAdded.toLocaleDateString()}
+            </time>
+            {
+                status !== "active" && (
+                    <span class="status status-{status}">{status}</span>
+                )
+            }
+        </div>
+        {
+            tags && tags.length > 0 && (
+                <div class="tags">
+                    {tags.map((tag) => (
+                        <a
+                            href={`/search/?tag=${encodeURIComponent(tag)}`}
+                            class="tag"
+                        >
+                            #{tag}
+                        </a>
+                    ))}
+                </div>
+            )
+        }
+    </header>
+
+     <div class="entry-content" set:html={truncatedHtml}></div>
+</article>
+
+<style>
+    .entry-card {
+        background: white;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        transition:
+            box-shadow 0.2s,
+            transform 0.2s;
+    }
+
+    .entry-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .entry-header h2 {
+        margin: 0 0 0.5rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .entry-header h2 a {
+        color: #333;
+        text-decoration: none;
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+
+    .entry-header h2 a:hover {
+        color: #007acc;
+    }
+
+    .entry-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+        font-size: 0.875rem;
+        color: #666;
+    }
+
+    .category {
+        background: var(--category-color);
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-weight: 500;
+        text-transform: capitalize;
+    }
+
+    .status {
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-weight: 500;
+        text-transform: capitalize;
+    }
+
+    .status-deprecated {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .status-archived {
+        background: #f3f4f6;
+        color: #6b7280;
+    }
+
+    .entry-content {
+        line-height: 1.6;
+        color: #444;
+    }
+
+    .read-more {
+        color: #007acc;
+        font-style: italic;
+    }
+
+    .tags {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin: 0.75rem 0 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .tag {
+        display: inline-block;
+        background: #f5f5f5;
+        color: #666;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+    .tag:hover {
+        background: #007acc;
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .entry-card {
+            padding: 1rem;
+        }
+
+        .entry-header h2 {
+            font-size: 1.125rem;
+        }
+
+        .entry-meta {
+            gap: 0.5rem;
+        }
+    }
+</style>

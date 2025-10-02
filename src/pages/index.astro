@@ -1,0 +1,44 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/PageHeader.astro";
+import EntryList from "@/components/EntryList.astro";
+import FilterControls from "@/components/FilterControls.astro";
+
+ const shitEntries = await getCollection("shit");
+ const starsEntries = await getCollection("stars");
+ const entries = [...shitEntries, ...starsEntries];
+ const sortedEntries = entries.sort(
+     (a: any, b: any) => b.data.dateAdded.getTime() - a.data.dateAdded.getTime(),
+ );
+
+ const categories = ["shit", "stars"];
+ const allTags = [
+     ...new Set(entries.flatMap((entry: any) => entry.data.tags || [])),
+ ].sort();
+---
+
+<BaseLayout
+    title="The Lists - Home"
+    description="A curated collection of tech that deserves to be on various lists"
+>
+    <PageHeader
+        title="The Lists"
+        description="A curated collection of tech that deserves to be on various lists"
+        stats={{
+            entries: entries.length,
+            categories: categories.length,
+            tags: allTags.length,
+        }}
+    />
+
+    <FilterControls
+        categories={categories as string[]}
+        allTags={allTags as string[]}
+    />
+
+    <EntryList
+        entries={sortedEntries as any[]}
+        emptyMessage="Start by adding some content to the entries collection!"
+    />
+</BaseLayout>

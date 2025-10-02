@@ -1,0 +1,103 @@
+---
+import Navbar from "@/components/Navbar.astro";
+
+export interface Props {
+    title: string;
+    description?: string;
+}
+
+const {
+    title,
+    description = "A curated collection of tech that deserves to be on various lists",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    </head>
+    <body>
+        <Navbar />
+
+        <main>
+            <slot />
+        </main>
+
+        <footer>
+            <p>Made with questionable life choices and Astro</p>
+        </footer>
+    </body>
+</html>
+
+<style is:global>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html {
+        font-family: system-ui, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: #fafafa;
+    }
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    main {
+        flex: 1;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        width: 100%;
+    }
+
+    h1,
+    h2,
+    h3 {
+        margin-bottom: 1rem;
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .header p {
+        color: #666;
+        font-size: 1.1rem;
+    }
+
+    footer {
+        background: #333;
+        color: white;
+        text-align: center;
+        padding: 2rem;
+        margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        main {
+            padding: 1rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+        }
+    }
+</style>

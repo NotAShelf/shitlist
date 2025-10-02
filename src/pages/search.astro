@@ -1,0 +1,477 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import EntryCard from "@/components/EntryCard.astro";
+
+ const shitEntries = await getCollection("shit");
+ const starsEntries = await getCollection("stars");
+ const entries = [...shitEntries, ...starsEntries];
+ const sortedEntries = entries.sort(
+     (a: any, b: any) => b.data.dateAdded.getTime() - a.data.dateAdded.getTime(),
+ );
+
+ const categories = ["shit", "stars"];
+ const allTags = [
+     ...new Set(entries.flatMap((entry: any) => entry.data.tags || [])),
+ ].sort();
+---
+
+<BaseLayout
+    title="Search - The Lists"
+    description="Search and filter through all entries"
+>
+    <div class="header">
+        <h1>Search</h1>
+        <p>Find exactly what you're looking for</p>
+    </div>
+
+    <div class="search-controls">
+        <div class="search-group">
+            <label for="search">Search</label>
+            <input
+                type="text"
+                id="search"
+                placeholder="Search titles and content..."
+                class="search-input"
+            />
+        </div>
+
+        <div class="filters-grid">
+            <div class="filter-group">
+                <label for="category">Category</label>
+                <select id="category" class="category-select">
+                    <option value="">All Categories</option>
+                    {
+                        categories.map((cat: string) => (
+                            <option value={cat}>
+                                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                            </option>
+                        ))
+                    }
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="status">Status</label>
+                <select id="status" class="status-select">
+                    <option value="">All Statuses</option>
+                    <option value="active">Active</option>
+                    <option value="deprecated">Deprecated</option>
+                    <option value="archived">Archived</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="sort">Sort By</label>
+                <select id="sort" class="sort-select">
+                    <option value="date-desc">Newest First</option>
+                    <option value="date-asc">Oldest First</option>
+                    <option value="title-asc">Title A-Z</option>
+                    <option value="title-desc">Title Z-A</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="tags-section">
+            <label>Tags</label>
+            <div class="tags-container">
+                {
+                    allTags.map((tag: string) => (
+                        <label class="tag-checkbox">
+                            <input
+                                type="checkbox"
+                                value={tag}
+                                class="tag-input"
+                            />
+                            <span class="tag-label">{tag}</span>
+                        </label>
+                    ))
+                }
+            </div>
+        </div>
+
+        <div class="search-actions">
+            <button type="button" class="clear-filters">Clear All</button>
+            <div class="results-info">
+                <span class="results-count"
+                    >Showing {entries.length} entries</span
+                >
+            </div>
+        </div>
+    </div>
+
+    <section class="entries" id="entries-container">
+        {
+            sortedEntries.map(async (entry: any) => {
+                return (
+                     <EntryCard
+                         title={entry.data.title}
+                         content={entry.body}
+                         category={entry.collection}
+                         tags={entry.data.tags}
+                         dateAdded={entry.data.dateAdded}
+                         status={entry.data.status}
+                         slug={entry.slug}
+                     />
+                );
+            })
+        }
+    </section>
+
+    <div class="empty-state" id="empty-state" style="display: none;">
+        <h2>No entries found</h2>
+        <p>
+            Try adjusting your search criteria or clear the filters to see all
+            entries.
+        </p>
+    </div>
+</BaseLayout>
+
+<style>
+    .search-controls {
+        background: white;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .search-group {
+        margin-bottom: 2rem;
+    }
+
+    .search-group label {
+        display: block;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #d1d5db;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: border-color 0.2s;
+    }
+
+    .search-input:focus {
+        outline: none;
+        border-color: #007acc;
+        box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.1);
+    }
+
+    .filters-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .filter-group label {
+        font-weight: 600;
+        color: #333;
+        font-size: 0.875rem;
+    }
+
+    .category-select,
+    .status-select,
+    .sort-select {
+        padding: 0.5rem;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        background: white;
+    }
+
+    .category-select:focus,
+    .status-select:focus,
+    .sort-select:focus {
+        outline: none;
+        border-color: #007acc;
+        box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.1);
+    }
+
+    .tags-section {
+        margin-bottom: 2rem;
+    }
+
+    .tags-section > label {
+        display: block;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 1rem;
+    }
+
+    .tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        max-height: 200px;
+        overflow-y: auto;
+        padding: 0.5rem;
+        border: 1px solid #e5e5e5;
+        border-radius: 4px;
+        background: #fafafa;
+    }
+
+    .tag-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        cursor: pointer;
+        font-size: 0.875rem;
+    }
+
+    .tag-input {
+        margin: 0;
+    }
+
+    .tag-label {
+        background: white;
+        padding: 0.375rem 0.75rem;
+        border-radius: 4px;
+        border: 1px solid #d1d5db;
+        transition: all 0.2s;
+    }
+
+    .tag-checkbox:has(.tag-input:checked) .tag-label {
+        background: #007acc;
+        color: white;
+        border-color: #007acc;
+    }
+
+    .search-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .clear-filters {
+        padding: 0.75rem 1.5rem;
+        background: #f3f4f6;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background-color 0.2s;
+    }
+
+    .clear-filters:hover {
+        background: #e5e7eb;
+    }
+
+    .results-info {
+        font-size: 0.875rem;
+        color: #666;
+    }
+
+    .results-count {
+        font-weight: 600;
+    }
+
+    .entries {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #666;
+    }
+
+    .empty-state h2 {
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+    @media (max-width: 768px) {
+        .search-controls {
+            padding: 1.5rem;
+        }
+
+        .filters-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .tags-container {
+            max-height: 150px;
+        }
+
+        .search-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+</style>
+
+<script>
+    const searchInput = document.getElementById("search") as HTMLInputElement;
+    const categorySelect = document.getElementById(
+        "category",
+    ) as HTMLSelectElement;
+    const statusSelect = document.getElementById("status") as HTMLSelectElement;
+    const sortSelect = document.getElementById("sort") as HTMLSelectElement;
+    const tagInputs = document.querySelectorAll(
+        ".tag-input",
+    ) as NodeListOf<HTMLInputElement>;
+    const clearButton = document.querySelector(
+        ".clear-filters",
+    ) as HTMLButtonElement;
+    const resultsCount = document.querySelector(
+        ".results-count",
+    ) as HTMLSpanElement;
+    const entriesContainer = document.getElementById(
+        "entries-container",
+    ) as HTMLElement;
+    const emptyState = document.getElementById("empty-state") as HTMLElement;
+
+    let allEntries: HTMLElement[] = [];
+
+    function initializeEntries() {
+        allEntries = Array.from(
+            document.querySelectorAll(".entry-card"),
+        ) as HTMLElement[];
+    }
+
+    function getEntryData(entry: HTMLElement) {
+        const title =
+            entry.querySelector("h2 a")?.textContent?.toLowerCase() || "";
+        const content =
+            entry.querySelector(".entry-content")?.textContent?.toLowerCase() ||
+            "";
+        const category =
+            entry.querySelector(".category")?.textContent?.toLowerCase() || "";
+        const status = entry.dataset.status || "active";
+        const entryTags = Array.from(entry.querySelectorAll(".tag")).map(
+            (tag) => tag.textContent || "",
+        );
+        const dateText =
+            entry.querySelector("time")?.getAttribute("datetime") || "";
+        const date = new Date(dateText);
+
+        return {
+            title,
+            content,
+            category,
+            status,
+            entryTags,
+            date,
+            element: entry,
+        };
+    }
+
+    function filterAndSortEntries() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedCategory = categorySelect.value;
+        const selectedStatus = statusSelect.value;
+        const selectedTags = Array.from(tagInputs)
+            .filter((input) => input.checked)
+            .map((input) => input.value);
+        const sortBy = sortSelect.value;
+
+        let filteredEntries = allEntries.map(getEntryData).filter((entry) => {
+            const matchesSearch =
+                !searchTerm ||
+                entry.title.includes(searchTerm) ||
+                entry.content.includes(searchTerm);
+
+            const matchesCategory =
+                !selectedCategory || entry.category === selectedCategory;
+            const matchesStatus =
+                !selectedStatus || entry.status === selectedStatus;
+
+            const matchesTags =
+                selectedTags.length === 0 ||
+                selectedTags.every((tag) => entry.entryTags.includes(tag));
+
+            return (
+                matchesSearch && matchesCategory && matchesStatus && matchesTags
+            );
+        });
+
+        // Sort entries
+        filteredEntries.sort((a, b) => {
+            switch (sortBy) {
+                case "date-asc":
+                    return a.date.getTime() - b.date.getTime();
+                case "date-desc":
+                    return b.date.getTime() - a.date.getTime();
+                case "title-asc":
+                    return a.title.localeCompare(b.title);
+                case "title-desc":
+                    return b.title.localeCompare(a.title);
+                default:
+                    return b.date.getTime() - a.date.getTime();
+            }
+        });
+
+        // Clear container
+        entriesContainer.innerHTML = "";
+
+        // Show filtered and sorted entries
+        if (filteredEntries.length > 0) {
+            filteredEntries.forEach((entry) => {
+                entriesContainer.appendChild(entry.element);
+            });
+            emptyState.style.display = "none";
+        } else {
+            emptyState.style.display = "block";
+        }
+
+        // Update results count
+        resultsCount.textContent = `Showing ${filteredEntries.length} of ${allEntries.length} entries`;
+    }
+
+    function clearAllFilters() {
+        searchInput.value = "";
+        categorySelect.value = "";
+        statusSelect.value = "";
+        sortSelect.value = "date-desc";
+        tagInputs.forEach((input) => (input.checked = false));
+        filterAndSortEntries();
+    }
+
+    // Event listeners
+    searchInput.addEventListener("input", filterAndSortEntries);
+    categorySelect.addEventListener("change", filterAndSortEntries);
+    statusSelect.addEventListener("change", filterAndSortEntries);
+    sortSelect.addEventListener("change", filterAndSortEntries);
+    tagInputs.forEach((input) =>
+        input.addEventListener("change", filterAndSortEntries),
+    );
+    clearButton.addEventListener("click", clearAllFilters);
+
+    // Handle URL parameters
+    function handleURLParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const tagParam = urlParams.get("tag");
+
+        if (tagParam) {
+            // Find and check the matching tag checkbox
+            tagInputs.forEach((input) => {
+                if (input.value === tagParam) {
+                    input.checked = true;
+                }
+            });
+        }
+    }
+
+    // Initialize
+    document.addEventListener("DOMContentLoaded", () => {
+        initializeEntries();
+        handleURLParams();
+        filterAndSortEntries();
+    });
+</script>
