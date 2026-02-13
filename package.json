@@ -1,7 +1,7 @@
 {
-  "name": "lists",
+  "name": "shitlist",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -10,11 +10,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "5.14.1"
+    "astro": "5.17.2"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@types/node": "^24.6.2",
+    "@astrojs/check": "^0.9.6",
+    "@types/node": "^25.2.3",
     "typescript": "^5.9.3"
   }
 }
