@@ -1,5 +1,6 @@
 ---
 import Navbar from "@/components/Navbar.astro";
+import Footer from "@/components/Footer.astro";
 import "../styles/global.css";
 
 export interface Props {
@@ -29,8 +30,6 @@ const {
             <slot />
         </main>
 
-        <footer>
-            <p>Made with questionable life choices and Astro</p>
-        </footer>
+        <Footer />
     </body>
 </html>

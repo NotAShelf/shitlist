@@ -74,7 +74,7 @@ import EntryCard from "@/components/EntryCard.astro";
 
         <div class="tags-section">
             <label>Tags</label>
-            <div class="tags-container">
+            <div class="tags-list">
                 {
                     allTags.map((tag: string) => (
                         <label class="tag-checkbox">
@@ -83,7 +83,7 @@ import EntryCard from "@/components/EntryCard.astro";
                                 value={tag}
                                 class="tag-input"
                             />
-                            <span class="tag-label">{tag}</span>
+                            <span class="tag-name">#{tag}</span>
                         </label>
                     ))
                 }
@@ -102,19 +102,17 @@ import EntryCard from "@/components/EntryCard.astro";
 
     <section class="entries" id="entries-container">
         {
-            sortedEntries.map(async (entry: any) => {
-                return (
-                     <EntryCard
-                         title={entry.data.title}
-                         content={entry.body}
-                         category={entry.collection}
-                         tags={entry.data.tags}
-                         dateAdded={entry.data.dateAdded}
-                         status={entry.data.status}
-                         slug={entry.slug}
-                     />
-                );
-            })
+            sortedEntries.map((entry: any) => (
+                <EntryCard
+                    title={entry.data.title}
+                    excerpt={entry.data.excerpt}
+                    category={entry.collection}
+                    tags={entry.data.tags}
+                    dateAdded={entry.data.dateAdded}
+                    status={entry.data.status}
+                    slug={entry.slug}
+                />
+            ))
         }
     </section>
 
@@ -130,10 +128,11 @@ import EntryCard from "@/components/EntryCard.astro";
 <style>
     .search-controls {
         background: white;
-        border: 1px solid #e5e5e5;
-        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
         padding: 2rem;
         margin-bottom: 2rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
     .search-group {
@@ -143,23 +142,27 @@ import EntryCard from "@/components/EntryCard.astro";
     .search-group label {
         display: block;
         font-weight: 600;
-        color: #333;
-        margin-bottom: 0.5rem;
+        color: #1a1a1a;
+        margin-bottom: 0.65rem;
+        font-size: 0.875rem;
+        letter-spacing: 0.01em;
     }
 
     .search-input {
         width: 100%;
-        padding: 0.75rem;
+        padding: 0.85rem 1rem;
         border: 2px solid #d1d5db;
-        border-radius: 6px;
+        border-radius: 8px;
         font-size: 1rem;
-        transition: border-color 0.2s;
+        transition: all 0.2s ease;
+        background: #fafafa;
     }
 
     .search-input:focus {
         outline: none;
         border-color: #007acc;
-        box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.1);
+        box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.08);
+        background: white;
     }
 
     .filters-grid {
@@ -172,23 +175,25 @@ import EntryCard from "@/components/EntryCard.astro";
     .filter-group {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 0.6rem;
     }
 
     .filter-group label {
         font-weight: 600;
-        color: #333;
+        color: #1a1a1a;
         font-size: 0.875rem;
+        letter-spacing: 0.01em;
     }
 
     .category-select,
     .status-select,
     .sort-select {
-        padding: 0.5rem;
+        padding: 0.65rem 0.75rem;
         border: 1px solid #d1d5db;
-        border-radius: 4px;
-        font-size: 0.875rem;
-        background: white;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        background: #fafafa;
+        transition: all 0.2s ease;
     }
 
     .category-select:focus,
@@ -196,7 +201,8 @@ import EntryCard from "@/components/EntryCard.astro";
     .sort-select:focus {
         outline: none;
         border-color: #007acc;
-        box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.1);
+        box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.08);
+        background: white;
     }
 
     .tags-section {
@@ -206,46 +212,70 @@ import EntryCard from "@/components/EntryCard.astro";
     .tags-section > label {
         display: block;
         font-weight: 600;
-        color: #333;
-        margin-bottom: 1rem;
+        color: #1a1a1a;
+        margin-bottom: 0.75rem;
+        font-size: 0.875rem;
     }
 
-    .tags-container {
+    .tags-list {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.5rem;
-        max-height: 200px;
+        gap: 0.4rem;
+        padding: 0.75rem;
+        background: #f8f9fa;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        max-height: 180px;
         overflow-y: auto;
-        padding: 0.5rem;
-        border: 1px solid #e5e5e5;
-        border-radius: 4px;
-        background: #fafafa;
+    }
+
+    .tags-list::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .tags-list::-webkit-scrollbar-track {
+        background: #f1f3f5;
+    }
+
+    .tags-list::-webkit-scrollbar-thumb {
+        background: #cbd5e0;
+        border-radius: 3px;
     }
 
     .tag-checkbox {
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 0.375rem;
+        gap: 0.5rem;
         cursor: pointer;
-        font-size: 0.875rem;
+        padding: 0.35rem 0.5rem;
+        border-radius: 4px;
+        transition: background 0.15s ease;
+    }
+
+    .tag-checkbox:hover {
+        background: #e5e7eb;
     }
 
     .tag-input {
         margin: 0;
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        accent-color: #007acc;
     }
 
-    .tag-label {
-        background: white;
-        padding: 0.375rem 0.75rem;
-        border-radius: 4px;
-        border: 1px solid #d1d5db;
-        transition: all 0.2s;
+    .tag-name {
+        font-size: 0.9rem;
+        color: #4b5563;
     }
 
-    .tag-checkbox:has(.tag-input:checked) .tag-label {
-        background: #007acc;
-        color: white;
-        border-color: #007acc;
+    .tag-checkbox:hover .tag-name {
+        color: #1a1a1a;
+    }
+
+    .tag-checkbox:has(.tag-input:checked) .tag-name {
+        color: #007acc;
+        font-weight: 600;
     }
 
     .search-actions {
@@ -254,38 +284,40 @@ import EntryCard from "@/components/EntryCard.astro";
         align-items: center;
         flex-wrap: wrap;
         gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #f3f4f6;
     }
 
     .clear-filters {
-        padding: 0.75rem 1.5rem;
-        background: #f3f4f6;
+        padding: 0.65rem 1.25rem;
+        background: #f9fafb;
         border: 1px solid #d1d5db;
-        border-radius: 4px;
+        border-radius: 6px;
         cursor: pointer;
         font-weight: 500;
-        transition: background-color 0.2s;
+        transition: all 0.2s ease;
+        color: #4b5563;
+        font-size: 0.875rem;
     }
 
     .clear-filters:hover {
         background: #e5e7eb;
+        border-color: #9ca3af;
     }
 
     .results-info {
-        font-size: 0.875rem;
-        color: #666;
+        font-size: 0.9rem;
+        color: #6b7280;
     }
 
     .results-count {
         font-weight: 600;
+        color: #1a1a1a;
     }
 
     .entries {
         display: flex;
         flex-direction: column;
-    }
-
-    .empty-state {
-        padding: 4rem 2rem;
     }
 
     @media (max-width: 768px) {
@@ -298,13 +330,23 @@ import EntryCard from "@/components/EntryCard.astro";
             gap: 1rem;
         }
 
-        .tags-container {
-            max-height: 150px;
+        .tags-list {
+            max-height: 120px;
+            padding: 0.5rem;
+            gap: 0.4rem;
+        }
+
+        .tag-name {
+            font-size: 0.8rem;
         }
 
         .search-actions {
             flex-direction: column;
             align-items: stretch;
+        }
+
+        .clear-filters {
+            width: 100%;
         }
     }
 </style>
@@ -341,8 +383,8 @@ import EntryCard from "@/components/EntryCard.astro";
     function getEntryData(entry: HTMLElement) {
         const title =
             entry.querySelector("h2 a")?.textContent?.toLowerCase() || "";
-        const content =
-            entry.querySelector(".entry-content")?.textContent?.toLowerCase() ||
+        const excerpt =
+            entry.querySelector(".entry-excerpt")?.textContent?.toLowerCase() ||
             "";
         const category =
             entry.querySelector(".category")?.textContent?.toLowerCase() || "";
@@ -356,7 +398,7 @@ import EntryCard from "@/components/EntryCard.astro";
 
         return {
             title,
-            content,
+            excerpt,
             category,
             status,
             entryTags,
@@ -378,7 +420,7 @@ import EntryCard from "@/components/EntryCard.astro";
             const matchesSearch =
                 !searchTerm ||
                 entry.title.includes(searchTerm) ||
-                entry.content.includes(searchTerm);
+                entry.excerpt.includes(searchTerm);
 
             const matchesCategory =
                 !selectedCategory || entry.category === selectedCategory;
