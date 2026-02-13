@@ -1,0 +1,314 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+ export async function getStaticPaths() {
+     const shitEntries = await getCollection("shit");
+     const starsEntries = await getCollection("stars");
+     const allEntries = [...shitEntries, ...starsEntries];
+
+     return allEntries.map((entry: any) => ({
+         params: {
+             category: entry.collection,
+             slug: entry.slug,
+         },
+         props: { entry },
+     }));
+ }
+
+ const { entry } = Astro.props as { entry: any };
+ const { Content } = await entry.render();
+
+ const getCategoryColor = (cat: string) => {
+     const colors = {
+         shit: "#dc2626",
+         stars: "#059669",
+     };
+     return colors[cat as keyof typeof colors] || "#6b7280";
+ };
+---
+
+ <BaseLayout
+     title={`${entry.data.title} - The Lists`}
+     description={`${entry.data.title} - ${entry.collection} entry`}
+ >
+     <nav class="breadcrumb">
+         <a href="/">Home</a>
+         <span class="separator">›</span>
+         <a href={`/${entry.collection}`}>
+             {
+                 entry.collection.charAt(0).toUpperCase() +
+                     entry.collection.slice(1)
+             }
+         </a>
+         <span class="separator">›</span>
+         <span class="current">{entry.data.title}</span>
+     </nav>
+
+     <article class="entry-detail">
+         <header class="entry-header">
+             <h1>{entry.data.title}</h1>
+
+             <div class="entry-meta">
+                 <span
+                     class="category"
+                     style={`--category-color: ${getCategoryColor(entry.collection)}`}
+                 >
+                     {entry.collection}
+                 </span>
+
+                <time datetime={entry.data.dateAdded.toISOString()}>
+                    Added {entry.data.dateAdded.toLocaleDateString()}
+                </time>
+
+                {
+                    entry.data.status !== "active" && (
+                        <span class="status status-{entry.data.status}">
+                            {entry.data.status}
+                        </span>
+                    )
+                }
+            </div>
+        </header>
+
+        <div class="entry-content">
+            <Content />
+        </div>
+
+        {
+            entry.data.tags && entry.data.tags.length > 0 && (
+                <div class="entry-footer">
+                    <div class="tags">
+                        {entry.data.tags.map((tag: string) => (
+                            <a
+                                href={`/search/?tag=${encodeURIComponent(tag)}`}
+                                class="tag"
+                            >
+                                #{tag}
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            )
+        }
+    </article>
+
+     <div class="navigation">
+         <a href={`/${entry.collection}`} class="back-link">
+             ← Back to {
+                 entry.collection.charAt(0).toUpperCase() +
+                     entry.collection.slice(1)
+             }
+         </a>
+     </div>
+</BaseLayout>
+
+<style>
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+        font-size: 0.875rem;
+        color: #666;
+    }
+
+    .breadcrumb a {
+        color: #007acc;
+        text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+        text-decoration: underline;
+    }
+
+    .separator {
+        color: #999;
+    }
+
+    .current {
+        font-weight: 500;
+        color: #333;
+    }
+
+    .entry-detail {
+        background: white;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 2rem;
+        margin-bottom: 4rem;
+    }
+
+    .entry-header h1 {
+        font-size: 2rem;
+        margin: 0 0 1rem 0;
+        color: #333;
+    }
+
+    .entry-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+        font-size: 0.875rem;
+        color: #666;
+    }
+
+    .category {
+        background: var(--category-color);
+        color: white;
+        padding: 0.375rem 0.75rem;
+        border-radius: 4px;
+        font-weight: 500;
+        text-transform: capitalize;
+    }
+
+    .status {
+        padding: 0.375rem 0.75rem;
+        border-radius: 4px;
+        font-weight: 500;
+        text-transform: capitalize;
+    }
+
+    .status-deprecated {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .status-archived {
+        background: #f3f4f6;
+        color: #6b7280;
+    }
+
+    .entry-content {
+        line-height: 1.7;
+        color: #444;
+        max-width: none;
+    }
+
+    .entry-content h2 {
+        font-size: 1.5rem;
+        margin: 2rem 0 1rem 0;
+        color: #333;
+    }
+
+    .entry-content h3 {
+        font-size: 1.25rem;
+        margin: 1.5rem 0 0.75rem 0;
+        color: #333;
+    }
+
+    .entry-content p {
+        margin-bottom: 1rem;
+    }
+
+    .entry-content ul,
+    .entry-content ol {
+        margin: 1rem 0;
+        padding-left: 2rem;
+    }
+
+    .entry-content li {
+        margin-bottom: 0.5rem;
+    }
+
+    .entry-content blockquote {
+        border-left: 4px solid #e5e5e5;
+        padding-left: 1rem;
+        margin: 1.5rem 0;
+        font-style: italic;
+        color: #666;
+    }
+
+    .entry-content code {
+        background: #f5f5f5;
+        padding: 0.125rem 0.25rem;
+        border-radius: 3px;
+        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+        font-size: 0.875em;
+    }
+
+    .entry-content pre {
+        background: #f5f5f5;
+        padding: 1rem;
+        border-radius: 4px;
+        overflow-x: auto;
+        margin: 1rem 0;
+    }
+
+    .entry-content pre code {
+        background: none;
+        padding: 0;
+    }
+
+    .entry-footer {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #f5f5f5;
+        background: white !important;
+        color: inherit !important;
+    }
+
+    .tags {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .tag {
+        background: #f5f5f5 !important;
+        color: #666 !important;
+        padding: 0.375rem 0.75rem;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+    .tag:hover {
+        background: #007acc;
+        color: white;
+    }
+
+    .navigation {
+        margin-top: 2rem;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #007acc;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e5e5e5;
+        border-radius: 4px;
+        transition: all 0.2s;
+    }
+
+    .back-link:hover {
+        background: #f8f9fa;
+        border-color: #007acc;
+    }
+
+    @media (max-width: 768px) {
+        .entry-detail {
+            padding: 1.5rem;
+        }
+
+        .entry-header h1 {
+            font-size: 1.5rem;
+        }
+
+        .entry-meta {
+            gap: 0.75rem;
+        }
+
+        .breadcrumb {
+            font-size: 0.75rem;
+        }
+    }
+</style>

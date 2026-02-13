@@ -1,0 +1,82 @@
+---
+export interface Props {
+    title: string;
+    description?: string;
+    stats?: {
+        entries: number;
+        categories?: number;
+        tags?: number;
+    };
+}
+
+const { title, description, stats } = Astro.props;
+---
+
+<div class="page-header">
+    <h1>{title}</h1>
+    {description && <p class="description">{description}</p>}
+    {stats && (
+        <div class="stats">
+            <span class="stat">
+                <strong>{stats.entries}</strong> entries
+            </span>
+            {stats.categories && (
+                <span class="stat">
+                    <strong>{stats.categories}</strong> categories
+                </span>
+            )}
+            {stats.tags && (
+                <span class="stat">
+                    <strong>{stats.tags}</strong> tags
+                </span>
+            )}
+        </div>
+    )}
+</div>
+
+<style>
+    .page-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .page-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+    .description {
+        color: #666;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+    .stats {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        margin-top: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .stat {
+        font-size: 0.875rem;
+        color: #666;
+    }
+
+    .stat strong {
+        color: #333;
+        font-size: 1.125rem;
+    }
+
+    @media (max-width: 768px) {
+        .page-header h1 {
+            font-size: 2rem;
+        }
+
+        .stats {
+            gap: 1rem;
+        }
+    }
+</style>

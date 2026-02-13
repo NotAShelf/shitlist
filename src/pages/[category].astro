@@ -1,0 +1,65 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/PageHeader.astro";
+import EntryList from "@/components/EntryList.astro";
+import FilterControls from "@/components/FilterControls.astro";
+
+ export async function getStaticPaths() {
+     const categories = ["shit", "stars"];
+
+     return categories.map((category: string) => ({
+         params: { category },
+         props: { category },
+     }));
+ }
+
+ const { category } = Astro.props as { category: string };
+ const collectionName = category as "shit" | "stars";
+ const categoryEntries = await getCollection(collectionName);
+ const sortedEntries = categoryEntries.sort(
+     (a: any, b: any) => b.data.dateAdded.getTime() - a.data.dateAdded.getTime(),
+ );
+
+ const categories = ["shit", "stars"];
+ const categoryTags = [
+     ...new Set(categoryEntries.flatMap((entry: any) => entry.data.tags || [])),
+ ].sort();
+
+ const categoryDisplayName =
+     category.charAt(0).toUpperCase() + category.slice(1);
+
+ const categoryDescriptionMap = {
+     shit: "Technologies that have caused pain and suffering",
+     stars: "Technologies that actually work and deserve praise",
+ };
+
+ const categoryDescription =
+     categoryDescriptionMap[category as keyof typeof categoryDescriptionMap] ||
+     "A collection of tech entries";
+---
+
+<BaseLayout
+    title={`${categoryDisplayName} - The Lists`}
+    description={categoryDescription}
+>
+    <PageHeader
+        title={categoryDisplayName}
+        description={categoryDescription}
+        stats={{
+            entries: sortedEntries.length,
+            tags: categoryTags.length > 0 ? categoryTags.length : undefined,
+        }}
+    />
+
+    <FilterControls
+        categories={categories}
+        selectedCategory={category}
+        allTags={categoryTags}
+    />
+
+     <EntryList
+         entries={sortedEntries as any[]}
+         emptyMessage={`This ${category} category is empty. Start by adding some content!`}
+     />
+</BaseLayout>
