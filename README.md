@@ -62,8 +62,19 @@ your choosing. You can use your browser to navigate to the dist directory for
 testing.
 
 ```bash
-pnpm run build
+# Build the static site
+$ pnpm run build
 ```
+
+### Contributing
+
+Don't.
+
+Well if you have to, make sure you passionately describe your hatred for the
+technology, tool or even the concept you are talking about. Word it properly,
+don't let pedants go "well akhtually" on it.
+
+Then format your code, lint it, test it and send it.
 
 ---
 
