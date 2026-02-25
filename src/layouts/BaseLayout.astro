@@ -1,35 +1,35 @@
 ---
-import Navbar from "@/components/Navbar.astro";
 import Footer from "@/components/Footer.astro";
+import Navbar from "@/components/Navbar.astro";
 import "../styles/global.css";
 
 export interface Props {
-    title: string;
-    description?: string;
+  title: string;
+  description?: string;
 }
 
 const {
-    title,
-    description = "A curated collection of tech that deserves to be on various lists",
+  title,
+  description = "A curated collection of tech that deserves to be on various lists",
 } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    </head>
-    <body>
-        <Navbar />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <Navbar />
 
-        <main>
-            <slot />
-        </main>
+    <main>
+      <slot />
+    </main>
 
-        <Footer />
-    </body>
+    <Footer />
+  </body>
 </html>

@@ -3,243 +3,277 @@
 ---
 
 <nav class="navbar">
-    <div class="nav-container">
-        <ul class="nav-list">
-            <li>
-                <a href="/">Home</a>
-            </li>
-            <li class="dropdown">
-                <button class="dropdown-toggle" type="button">
-                    Lists
-                    <svg
-                        class="dropdown-icon"
-                        width="12"
-                        height="12"
-                        viewBox="0 0 12 12"
-                        fill="currentColor"
-                    >
-                        <path d="M2 4l4 4 4-4H2z"></path>
-                    </svg>
-                </button>
-                 <ul class="dropdown-menu">
-                     <li><a href="/shit">Shitlist</a></li>
-                     <li><a href="/stars">Starlist</a></li>
-                 </ul>
-            </li>
-            <li>
-                <a href="/search">Search</a>
-            </li>
+  <div class="nav-container">
+    <ul class="nav-list">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li class="dropdown">
+        <button class="dropdown-toggle" type="button">
+          Lists
+          <svg
+            class="dropdown-icon"
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="currentColor"
+          >
+            <path d="M2 4l4 4 4-4H2z"></path>
+          </svg>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="/shit">Shitlist</a></li>
+          <li><a href="/stars">Starlist</a></li>
         </ul>
-    </div>
+      </li>
+    </ul>
+    <a href="/search" class="search-link" aria-label="Search">
+      <svg
+        class="search-icon"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+    </a>
+  </div>
 </nav>
 
 <style>
-    .navbar {
-        background: #fff;
-        border-bottom: 1px solid #e5e5e5;
-        padding: 1rem 0;
-    }
+  .navbar {
+    background: #fff;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 1rem 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  }
 
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+
+  .nav-list a {
+    text-decoration: none;
+    color: #4b5563;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+  }
+
+  .nav-list a:hover {
+    background: #f5f5f5;
+    color: #1a1a1a;
+  }
+
+  .nav-list a.active {
+    background: #007acc;
+    color: white;
+  }
+
+  .search-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 6px;
+    color: #4b5563;
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+
+  .search-link:hover {
+    background: #f5f5f5;
+    color: #1a1a1a;
+  }
+
+  .search-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .dropdown-toggle {
+    background: none;
+    border: none;
+    font: inherit;
+    color: #4b5563;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .dropdown-toggle:hover {
+    background: #f5f5f5;
+    color: #1a1a1a;
+  }
+
+  .dropdown-icon {
+    transition: transform 0.2s;
+  }
+
+  .dropdown.open .dropdown-icon {
+    transform: rotate(180deg);
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    min-width: 160px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: all 0.2s ease;
+    z-index: 1000;
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0;
+  }
+
+  .dropdown.open .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .dropdown-menu li {
+    margin: 0;
+  }
+
+  .dropdown-menu a {
+    display: block;
+    padding: 0.65rem 1rem;
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    text-decoration: none;
+    color: #4b5563;
+    transition: all 0.2s ease;
+    font-weight: 400;
+  }
+
+  .dropdown-menu a:hover {
+    background: #f8f9fa;
+    color: #1a1a1a;
+  }
+
+  @media (max-width: 768px) {
     .nav-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 2rem;
+      padding: 0 1rem;
     }
 
     .nav-list {
-        list-style: none;
-        display: flex;
-        align-items: center;
-        gap: 2rem;
-        margin: 0;
-        padding: 0;
-        flex-wrap: wrap;
-    }
-
-    .nav-list a {
-        text-decoration: none;
-        color: #333;
-        font-weight: 500;
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        transition: background-color 0.2s;
-    }
-
-    .nav-list a:hover {
-        background: #f5f5f5;
-    }
-
-    .nav-list a.active {
-        background: #007acc;
-        color: white;
-    }
-
-    .dropdown {
-        position: relative;
-        display: flex;
-        align-items: center;
-    }
-
-    .dropdown-toggle {
-        background: none;
-        border: none;
-        font: inherit;
-        color: #333;
-        font-weight: 500;
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.2s;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .dropdown-toggle:hover {
-        background: #f5f5f5;
-    }
-
-    .dropdown-icon {
-        transition: transform 0.2s;
-    }
-
-    .dropdown.open .dropdown-icon {
-        transform: rotate(180deg);
+      gap: 1rem;
     }
 
     .dropdown-menu {
-        position: absolute;
-        top: calc(100% + 0.25rem);
-        left: 0;
-        background: white;
-        border: 1px solid #e5e5e5;
-        border-radius: 6px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        min-width: 160px;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-8px);
-        transition: all 0.2s ease;
-        z-index: 1000;
-        list-style: none;
-        margin: 0;
-        padding: 0.5rem 0;
+      min-width: 140px;
     }
-
-    .dropdown.open .dropdown-menu {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
-
-    .dropdown-menu li {
-        margin: 0;
-    }
-
-    .dropdown-menu a {
-        display: block;
-        padding: 0.75rem 1rem;
-        margin: 0;
-        border-radius: 0;
-        border: none;
-        text-decoration: none;
-        color: #333;
-        transition: background-color 0.2s;
-        font-weight: 400;
-    }
-
-    .dropdown-menu a:hover {
-        background: #f8f9fa;
-    }
-
-    @media (max-width: 768px) {
-        .nav-container {
-            padding: 0 1rem;
-        }
-
-        .nav-list {
-            gap: 1rem;
-        }
-
-        .dropdown-menu {
-            min-width: 140px;
-        }
-    }
+  }
 </style>
 
 <script>
-    class NavbarDropdown {
-        private dropdown: HTMLElement | null = null;
-        private toggle: HTMLButtonElement | null = null;
-        private isOpen = false;
+  class NavbarDropdown {
+    private dropdown: HTMLElement | null = null;
+    private toggle: HTMLButtonElement | null = null;
+    private isOpen = false;
 
-        constructor() {
-            this.init();
-        }
-
-        private init() {
-            this.dropdown = document.querySelector(".dropdown");
-            this.toggle = document.querySelector(".dropdown-toggle");
-
-            if (this.dropdown && this.toggle) {
-                this.toggle.addEventListener(
-                    "click",
-                    this.handleToggle.bind(this),
-                );
-                document.addEventListener(
-                    "click",
-                    this.handleClickOutside.bind(this),
-                );
-                document.addEventListener(
-                    "keydown",
-                    this.handleKeydown.bind(this),
-                );
-            }
-        }
-
-        private handleToggle(e: Event) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.toggleDropdown();
-        }
-
-        private handleClickOutside(e: Event) {
-            if (
-                this.dropdown &&
-                !this.dropdown.contains(e.target as Node) &&
-                this.isOpen
-            ) {
-                this.closeDropdown();
-            }
-        }
-
-        private handleKeydown(e: KeyboardEvent) {
-            if (e.key === "Escape" && this.isOpen) {
-                this.closeDropdown();
-                this.toggle?.focus();
-            }
-        }
-
-        private toggleDropdown() {
-            this.isOpen ? this.closeDropdown() : this.openDropdown();
-        }
-
-        private openDropdown() {
-            if (this.dropdown) {
-                this.dropdown.classList.add("open");
-                this.isOpen = true;
-            }
-        }
-
-        private closeDropdown() {
-            if (this.dropdown) {
-                this.dropdown.classList.remove("open");
-                this.isOpen = false;
-            }
-        }
+    constructor() {
+      this.init();
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        new NavbarDropdown();
-    });
+    private init() {
+      this.dropdown = document.querySelector(".dropdown");
+      this.toggle = document.querySelector(".dropdown-toggle");
+
+      if (this.dropdown && this.toggle) {
+        this.toggle.addEventListener("click", this.handleToggle.bind(this));
+        document.addEventListener("click", this.handleClickOutside.bind(this));
+        document.addEventListener("keydown", this.handleKeydown.bind(this));
+      }
+    }
+
+    private handleToggle(e: Event) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.toggleDropdown();
+    }
+
+    private handleClickOutside(e: Event) {
+      if (
+        this.dropdown &&
+        !this.dropdown.contains(e.target as Node) &&
+        this.isOpen
+      ) {
+        this.closeDropdown();
+      }
+    }
+
+    private handleKeydown(e: KeyboardEvent) {
+      if (e.key === "Escape" && this.isOpen) {
+        this.closeDropdown();
+        this.toggle?.focus();
+      }
+    }
+
+    private toggleDropdown() {
+      this.isOpen ? this.closeDropdown() : this.openDropdown();
+    }
+
+    private openDropdown() {
+      if (this.dropdown) {
+        this.dropdown.classList.add("open");
+        this.isOpen = true;
+      }
+    }
+
+    private closeDropdown() {
+      if (this.dropdown) {
+        this.dropdown.classList.remove("open");
+        this.isOpen = false;
+      }
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    new NavbarDropdown();
+  });
 </script>

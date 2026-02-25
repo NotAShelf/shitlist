@@ -1,288 +1,285 @@
 ---
-import { getCollection } from "astro:content";
-import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
 
- export async function getStaticPaths() {
-     const shitEntries = await getCollection("shit");
-     const starsEntries = await getCollection("stars");
-     const allEntries = [...shitEntries, ...starsEntries];
+export async function getStaticPaths() {
+  const shitEntries = await getCollection("shit");
+  const starsEntries = await getCollection("stars");
+  const allEntries = [...shitEntries, ...starsEntries];
 
-     return allEntries.map((entry: any) => ({
-         params: {
-             category: entry.collection,
-             slug: entry.slug,
-         },
-         props: { entry },
-     }));
- }
+  return allEntries.map((entry: any) => ({
+    params: {
+      category: entry.collection,
+      slug: entry.slug,
+    },
+    props: { entry },
+  }));
+}
 
- const { entry } = Astro.props as { entry: any };
- const { Content } = await entry.render();
+const { entry } = Astro.props as { entry: any };
+const { Content } = await entry.render();
 
- const getCategoryColor = (cat: string) => {
-     const colors = {
-         shit: "#dc2626",
-         stars: "#059669",
-     };
-     return colors[cat as keyof typeof colors] || "#6b7280";
- };
+const getCategoryColor = (cat: string) => {
+  const colors = {
+    shit: "#dc2626",
+    stars: "#059669",
+  };
+  return colors[cat as keyof typeof colors] || "#6b7280";
+};
 
- const categoryDisplayName =
-     entry.collection.charAt(0).toUpperCase() + entry.collection.slice(1);
+const categoryDisplayName =
+  entry.collection.charAt(0).toUpperCase() + entry.collection.slice(1);
 
- const breadcrumbItems = [
-     { label: "Home", href: "/" },
-     { label: categoryDisplayName, href: `/${entry.collection}` },
-     { label: entry.data.title },
- ];
+const breadcrumbItems = [
+  { label: "Home", href: "/" },
+  { label: categoryDisplayName, href: `/${entry.collection}` },
+  { label: entry.data.title },
+];
 ---
 
- <BaseLayout
-     title={`${entry.data.title} - The Lists`}
-     description={`${entry.data.title} - ${entry.collection} entry`}
- >
-     <Breadcrumb items={breadcrumbItems} />
+<BaseLayout
+  title={`${entry.data.title} - The Lists`}
+  description={`${entry.data.title} - ${entry.collection} entry`}
+>
+  <Breadcrumb items={breadcrumbItems} />
 
-     <article class="entry-detail">
-         <header class="entry-header">
-             <h1>{entry.data.title}</h1>
+  <article class="entry-detail">
+    <header class="entry-header">
+      <h1>{entry.data.title}</h1>
 
-             <div class="entry-meta">
-                 <span
-                     class="category"
-                     style={`--category-color: ${getCategoryColor(entry.collection)}`}
-                 >
-                     {entry.collection}
-                 </span>
+      <div class="entry-meta">
+        <span
+          class="category"
+          style={`--category-color: ${getCategoryColor(entry.collection)}`}
+        >
+          {entry.collection}
+        </span>
 
-                <time datetime={entry.data.dateAdded.toISOString()}>
-                    Added {entry.data.dateAdded.toLocaleDateString()}
-                </time>
-
-                {
-                    entry.data.status !== "active" && (
-                        <span class="status status-{entry.data.status}">
-                            {entry.data.status}
-                        </span>
-                    )
-                }
-            </div>
-        </header>
-
-        <div class="entry-content">
-            <Content />
-        </div>
+        <time datetime={entry.data.dateAdded.toISOString()}>
+          Added {entry.data.dateAdded.toLocaleDateString()}
+        </time>
 
         {
-            entry.data.tags && entry.data.tags.length > 0 && (
-                <div class="entry-footer">
-                    <div class="tags">
-                        {entry.data.tags.map((tag: string) => (
-                            <a
-                                href={`/search/?tag=${encodeURIComponent(tag)}`}
-                                class="tag"
-                            >
-                                #{tag}
-                            </a>
-                        ))}
-                    </div>
-                </div>
-            )
+          entry.data.status !== "active" && (
+            <span class="status status-{entry.data.status}">
+              {entry.data.status}
+            </span>
+          )
         }
-    </article>
+      </div>
+    </header>
 
-     <div class="navigation">
-         <a href={`/${entry.collection}`} class="back-link">
-             ← Back to {categoryDisplayName}
-         </a>
-     </div>
+    <div class="entry-content">
+      <Content />
+    </div>
+
+    {
+      entry.data.tags && entry.data.tags.length > 0 && (
+        <div class="entry-footer">
+          <div class="tags">
+            {entry.data.tags.map((tag: string) => (
+              <a href={`/search/?tag=${encodeURIComponent(tag)}`} class="tag">
+                #{tag}
+              </a>
+            ))}
+          </div>
+        </div>
+      )
+    }
+  </article>
+
+  <div class="navigation">
+    <a href={`/${entry.collection}`} class="back-link">
+      ← Back to {categoryDisplayName}
+    </a>
+  </div>
 </BaseLayout>
 
 <style>
+  .entry-detail {
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .entry-header h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin: 0 0 1.25rem 0;
+    color: #1a1a1a;
+    line-height: 1.2;
+  }
+
+  .entry-meta {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #f3f4f6;
+  }
+
+  .category {
+    padding: 0.4rem 0.85rem;
+  }
+
+  .status {
+    padding: 0.4rem 0.85rem;
+  }
+
+  .entry-content {
+    line-height: 1.75;
+    color: #374151;
+    max-width: none;
+    font-size: 1.05rem;
+  }
+
+  .entry-content h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 2.5rem 0 1.25rem 0;
+    color: #1a1a1a;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f3f4f6;
+  }
+
+  .entry-content h3 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin: 2rem 0 1rem 0;
+    color: #1a1a1a;
+  }
+
+  .entry-content p {
+    margin-bottom: 1.25rem;
+  }
+
+  .entry-content ul,
+  .entry-content ol {
+    margin: 1.25rem 0;
+    padding-left: 2rem;
+  }
+
+  .entry-content li {
+    margin-bottom: 0.65rem;
+    line-height: 1.7;
+  }
+
+  .entry-content blockquote {
+    border-left: 4px solid #007acc;
+    background: #f8f9fa;
+    padding: 1rem 1.5rem;
+    margin: 1.75rem 0;
+    font-style: italic;
+    color: #4b5563;
+    border-radius: 4px;
+  }
+
+  .entry-content code {
+    background: #f3f4f6;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+    font-size: 0.9em;
+    color: #dc2626;
+    border: 1px solid #e5e7eb;
+  }
+
+  .entry-content pre {
+    background: #1a1a1a;
+    color: #e5e5e5;
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border: 1px solid #333;
+  }
+
+  .entry-content pre code {
+    background: none;
+    padding: 0;
+    border: none;
+    color: inherit;
+  }
+
+  .entry-content a {
+    color: #007acc;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    transition: color 0.2s ease;
+  }
+
+  .entry-content a:hover {
+    color: #005a9c;
+  }
+
+  .entry-footer {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 2px solid #f3f4f6;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    padding: 0.4rem 0.85rem;
+    font-size: 0.875rem;
+  }
+
+  .navigation {
+    margin-top: 2rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: #007acc;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    background: white;
+  }
+
+  .back-link:hover {
+    background: #f8f9fa;
+    border-color: #007acc;
+    transform: translateX(-2px);
+  }
+
+  @media (max-width: 768px) {
     .entry-detail {
-        background: white;
-        border: 1px solid #e5e5e5;
-        border-radius: 12px;
-        padding: 2.5rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      padding: 1.75rem;
+      border-radius: 10px;
     }
 
     .entry-header h1 {
-        font-size: 2.25rem;
-        font-weight: 700;
-        margin: 0 0 1.25rem 0;
-        color: #1a1a1a;
-        line-height: 1.2;
+      font-size: 1.75rem;
     }
 
     .entry-meta {
-        margin-bottom: 2.5rem;
-        padding-bottom: 1.5rem;
-        border-bottom: 2px solid #f3f4f6;
-    }
-
-    .category {
-        padding: 0.4rem 0.85rem;
-    }
-
-    .status {
-        padding: 0.4rem 0.85rem;
+      gap: 0.75rem;
     }
 
     .entry-content {
-        line-height: 1.75;
-        color: #374151;
-        max-width: none;
-        font-size: 1.05rem;
+      font-size: 1rem;
     }
 
     .entry-content h2 {
-        font-size: 1.75rem;
-        font-weight: 700;
-        margin: 2.5rem 0 1.25rem 0;
-        color: #1a1a1a;
-        padding-bottom: 0.5rem;
-        border-bottom: 2px solid #f3f4f6;
+      font-size: 1.5rem;
     }
 
     .entry-content h3 {
-        font-size: 1.35rem;
-        font-weight: 600;
-        margin: 2rem 0 1rem 0;
-        color: #1a1a1a;
+      font-size: 1.2rem;
     }
-
-    .entry-content p {
-        margin-bottom: 1.25rem;
-    }
-
-    .entry-content ul,
-    .entry-content ol {
-        margin: 1.25rem 0;
-        padding-left: 2rem;
-    }
-
-    .entry-content li {
-        margin-bottom: 0.65rem;
-        line-height: 1.7;
-    }
-
-    .entry-content blockquote {
-        border-left: 4px solid #007acc;
-        background: #f8f9fa;
-        padding: 1rem 1.5rem;
-        margin: 1.75rem 0;
-        font-style: italic;
-        color: #4b5563;
-        border-radius: 4px;
-    }
-
-    .entry-content code {
-        background: #f3f4f6;
-        padding: 0.2rem 0.4rem;
-        border-radius: 4px;
-        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
-        font-size: 0.9em;
-        color: #dc2626;
-        border: 1px solid #e5e7eb;
-    }
-
-    .entry-content pre {
-        background: #1a1a1a;
-        color: #e5e5e5;
-        padding: 1.5rem;
-        border-radius: 8px;
-        overflow-x: auto;
-        margin: 1.5rem 0;
-        border: 1px solid #333;
-    }
-
-    .entry-content pre code {
-        background: none;
-        padding: 0;
-        border: none;
-        color: inherit;
-    }
-
-    .entry-content a {
-        color: #007acc;
-        text-decoration: underline;
-        text-decoration-thickness: 1px;
-        text-underline-offset: 2px;
-        transition: color 0.2s ease;
-    }
-
-    .entry-content a:hover {
-        color: #005a9c;
-    }
-
-    .entry-footer {
-        margin-top: 2.5rem;
-        padding-top: 2rem;
-        border-top: 2px solid #f3f4f6;
-    }
-
-    .tags {
-        display: flex;
-        gap: 0.65rem;
-        flex-wrap: wrap;
-    }
-
-    .tag {
-        padding: 0.4rem 0.85rem;
-        font-size: 0.875rem;
-    }
-
-    .navigation {
-        margin-top: 2rem;
-    }
-
-    .back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.65rem;
-        color: #007acc;
-        text-decoration: none;
-        font-weight: 500;
-        padding: 0.75rem 1.25rem;
-        border: 1px solid #e5e5e5;
-        border-radius: 8px;
-        transition: all 0.2s ease;
-        background: white;
-    }
-
-    .back-link:hover {
-        background: #f8f9fa;
-        border-color: #007acc;
-        transform: translateX(-2px);
-    }
-
-    @media (max-width: 768px) {
-        .entry-detail {
-            padding: 1.75rem;
-            border-radius: 10px;
-        }
-
-        .entry-header h1 {
-            font-size: 1.75rem;
-        }
-
-        .entry-meta {
-            gap: 0.75rem;
-        }
-
-        .entry-content {
-            font-size: 1rem;
-        }
-
-        .entry-content h2 {
-            font-size: 1.5rem;
-        }
-
-        .entry-content h3 {
-            font-size: 1.2rem;
-        }
-    }
+  }
 </style>

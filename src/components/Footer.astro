@@ -1,0 +1,41 @@
+---
+// Footer component
+---
+
+<footer class="footer">
+  <div class="footer-content">
+    <p>Made with questionable life choices and Astro</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: #1a1a1a;
+    color: #e5e5e5;
+    margin-top: auto;
+    border-top: 1px solid #333;
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .footer-content p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #9ca3af;
+  }
+
+  @media (max-width: 768px) {
+    .footer-content {
+      padding: 1.5rem 1rem;
+    }
+
+    .footer-content p {
+      font-size: 0.85rem;
+    }
+  }
+</style>

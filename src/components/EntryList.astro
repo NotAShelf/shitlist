@@ -2,53 +2,46 @@
 import EntryCard from "./EntryCard.astro";
 
 export interface Props {
-    entries: any[];
-    showEmpty?: boolean;
-    emptyMessage?: string;
+  entries: any[];
+  showEmpty?: boolean;
+  emptyMessage?: string;
 }
 
 const {
-    entries,
-    showEmpty = true,
-    emptyMessage = "No entries found"
+  entries,
+  showEmpty = true,
+  emptyMessage = "No entries found",
 } = Astro.props;
 ---
 
 <section class="entry-list">
-     {entries.map((entry) => (
-         <EntryCard
-             title={entry.data.title}
-             content={entry.body}
-             category={entry.collection || entry.data.category}
-             tags={entry.data.tags}
-             dateAdded={entry.data.dateAdded}
-             status={entry.data.status}
-             slug={entry.slug}
-         />
-     ))}
+  {
+    entries.map((entry) => (
+      <EntryCard
+        title={entry.data.title}
+        excerpt={entry.data.excerpt ?? ""}
+        category={entry.collection || entry.data.category}
+        tags={entry.data.tags}
+        dateAdded={entry.data.dateAdded}
+        status={entry.data.status}
+        slug={entry.slug}
+      />
+    ))
+  }
 
-    {showEmpty && entries.length === 0 && (
-        <div class="empty-state">
-            <h2>No entries found</h2>
-            <p>{emptyMessage}</p>
-        </div>
-    )}
+  {
+    showEmpty && entries.length === 0 && (
+      <div class="empty-state">
+        <h2>No entries found</h2>
+        <p>{emptyMessage}</p>
+      </div>
+    )
+  }
 </section>
 
 <style>
-    .entry-list {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .empty-state {
-        text-align: center;
-        padding: 4rem 2rem;
-        color: #666;
-    }
-
-    .empty-state h2 {
-        margin-bottom: 0.5rem;
-        color: #333;
-    }
+  .entry-list {
+    display: flex;
+    flex-direction: column;
+  }
 </style>
