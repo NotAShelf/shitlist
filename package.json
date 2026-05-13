@@ -14,7 +14,7 @@
         "fmt:check": "prettier --check src/"
     },
     "dependencies": {
-        "astro": "6.1.6"
+        "astro": "6.1.10"
     },
     "devDependencies": {
         "@astrojs/check": "^0.9.6",
